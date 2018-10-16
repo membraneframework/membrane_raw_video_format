@@ -22,7 +22,7 @@ defmodule Membrane.Caps.Video.Raw do
   @type framerate_t :: {frames :: non_neg_integer, seconds :: pos_integer}
 
   @typedoc """
-  Format used to encode uncompressed video frame.
+  Format used to encode color of each pixel in each video frame.
   """
   @type format_t :: :I420 | :I422 | :I444 | :RGB | :BGRA | :RGBA | :NV12 | :NV21 | :YV12 | :AYUV
 

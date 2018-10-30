@@ -41,7 +41,7 @@ defmodule Membrane.Caps.Video.Raw do
         }
 
   @enforce_keys [:width, :height, :framerate, :format, :aligned]
-  defstruct [:width, :height, :framerate, :format, :aligned]
+  defstruct @enforce_keys
 
   @doc """
   Simple wrapper over `frame_size/3`. Returns the size of raw video frame

@@ -1,6 +1,6 @@
 # Membrane Multimedia Framework: Raw video format definition
 
-[![Build Status](https://travis-ci.com/membraneframework/membrane-caps-video-raw.svg?branch=master)](https://travis-ci.com/membraneframework/membrane-caps-video-raw)
+[![CircleCI](https://circleci.com/gh/membraneframework/membrane-caps-video-raw.svg?style=svg)](https://circleci.com/gh/membraneframework/membrane-caps-video-raw)
 
 This package provides raw video format definition (so-called caps) for the
 [Membrane Multimedia Framework](https://membraneframework.org).

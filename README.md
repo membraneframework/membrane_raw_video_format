@@ -1,8 +1,10 @@
 # Membrane Multimedia Framework: Raw video format definition
 
-[![CircleCI](https://circleci.com/gh/membraneframework/membrane-caps-video-raw.svg?style=svg)](https://circleci.com/gh/membraneframework/membrane-caps-video-raw)
+[![Hex.pm](https://img.shields.io/hexpm/v/membrane_raw_video_format.svg)](https://hex.pm/packages/membrane_raw_video_format)
+[![API Docs](https://img.shields.io/badge/api-docs-yellow.svg?style=flat)](https://hexdocs.pm/membrane_raw_video_format/)
+[![CircleCI](https://circleci.com/gh/membraneframework/membrane_raw_video_format.svg?style=svg)](https://circleci.com/gh/membraneframework/membrane_raw_video_format)
 
-This package provides raw video format definition (so-called caps) for the
+This package provides the definition of raw (uncompressed) video frames format for the elements written with
 [Membrane Multimedia Framework](https://membraneframework.org).
 
 ## Installation
@@ -16,7 +18,7 @@ reason, just add the following line to your `deps` in the `mix.exs` and run
 `mix deps.get`.
 
 ```elixir
-{:membrane_caps_video_raw, "~> 0.1"}
+{:membrane_raw_video_format, "~> 0.2"}
 ```
 
 ## Copyright and License

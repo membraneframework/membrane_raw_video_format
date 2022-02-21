@@ -15,22 +15,22 @@ defmodule Membrane.RawVideo.Test do
   test "frame_size for :I420 format" do
     format = :I420
     assert @module.frame_size(format, 10, 20) == {:ok, 300}
-    assert @module.frame_size(format, 9, 20) == {:error, :invalid_dims}
-    assert @module.frame_size(format, 10, 19) == {:error, :invalid_dims}
+    assert @module.frame_size(format, 9, 20) == {:error, :invalid_dimensions}
+    assert @module.frame_size(format, 10, 19) == {:error, :invalid_dimensions}
 
     assert @module.frame_size(format_struct(format, 10, 20)) == {:ok, 300}
-    assert @module.frame_size(format_struct(format, 9, 20)) == {:error, :invalid_dims}
-    assert @module.frame_size(format_struct(format, 10, 19)) == {:error, :invalid_dims}
+    assert @module.frame_size(format_struct(format, 9, 20)) == {:error, :invalid_dimensions}
+    assert @module.frame_size(format_struct(format, 10, 19)) == {:error, :invalid_dimensions}
   end
 
   test "frame_size for :I422 format" do
     format = :I422
     assert @module.frame_size(format, 10, 20) == {:ok, 400}
-    assert @module.frame_size(format, 9, 20) == {:error, :invalid_dims}
+    assert @module.frame_size(format, 9, 20) == {:error, :invalid_dimensions}
     assert @module.frame_size(format, 10, 19) == {:ok, 380}
 
     assert @module.frame_size(format_struct(format, 10, 20)) == {:ok, 400}
-    assert @module.frame_size(format_struct(format, 9, 20)) == {:error, :invalid_dims}
+    assert @module.frame_size(format_struct(format, 9, 20)) == {:error, :invalid_dimensions}
     assert @module.frame_size(format_struct(format, 10, 19)) == {:ok, 380}
   end
 
@@ -81,34 +81,34 @@ defmodule Membrane.RawVideo.Test do
   test "frame_size for :NV12 format" do
     format = :NV12
     assert @module.frame_size(format, 10, 20) == {:ok, 300}
-    assert @module.frame_size(format, 9, 20) == {:error, :invalid_dims}
-    assert @module.frame_size(format, 10, 19) == {:error, :invalid_dims}
+    assert @module.frame_size(format, 9, 20) == {:error, :invalid_dimensions}
+    assert @module.frame_size(format, 10, 19) == {:error, :invalid_dimensions}
 
     assert @module.frame_size(format_struct(format, 10, 20)) == {:ok, 300}
-    assert @module.frame_size(format_struct(format, 9, 20)) == {:error, :invalid_dims}
-    assert @module.frame_size(format_struct(format, 10, 19)) == {:error, :invalid_dims}
+    assert @module.frame_size(format_struct(format, 9, 20)) == {:error, :invalid_dimensions}
+    assert @module.frame_size(format_struct(format, 10, 19)) == {:error, :invalid_dimensions}
   end
 
   test "frame_size for :NV21 format" do
     format = :NV21
     assert @module.frame_size(format, 10, 20) == {:ok, 300}
-    assert @module.frame_size(format, 9, 20) == {:error, :invalid_dims}
-    assert @module.frame_size(format, 10, 19) == {:error, :invalid_dims}
+    assert @module.frame_size(format, 9, 20) == {:error, :invalid_dimensions}
+    assert @module.frame_size(format, 10, 19) == {:error, :invalid_dimensions}
 
     assert @module.frame_size(format_struct(format, 10, 20)) == {:ok, 300}
-    assert @module.frame_size(format_struct(format, 9, 20)) == {:error, :invalid_dims}
-    assert @module.frame_size(format_struct(format, 10, 19)) == {:error, :invalid_dims}
+    assert @module.frame_size(format_struct(format, 9, 20)) == {:error, :invalid_dimensions}
+    assert @module.frame_size(format_struct(format, 10, 19)) == {:error, :invalid_dimensions}
   end
 
   test "frame_size for :YV12 format" do
     format = :YV12
     assert @module.frame_size(format, 10, 20) == {:ok, 300}
-    assert @module.frame_size(format, 9, 20) == {:error, :invalid_dims}
-    assert @module.frame_size(format, 10, 19) == {:error, :invalid_dims}
+    assert @module.frame_size(format, 9, 20) == {:error, :invalid_dimensions}
+    assert @module.frame_size(format, 10, 19) == {:error, :invalid_dimensions}
 
     assert @module.frame_size(format_struct(format, 10, 20)) == {:ok, 300}
-    assert @module.frame_size(format_struct(format, 9, 20)) == {:error, :invalid_dims}
-    assert @module.frame_size(format_struct(format, 10, 19)) == {:error, :invalid_dims}
+    assert @module.frame_size(format_struct(format, 9, 20)) == {:error, :invalid_dimensions}
+    assert @module.frame_size(format_struct(format, 10, 19)) == {:error, :invalid_dimensions}
   end
 
   test "frame_size for :AYUV format" do

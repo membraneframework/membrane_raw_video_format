@@ -51,7 +51,7 @@ defmodule Membrane.RawVideo do
   in bytes for the given caps.
   """
   @spec frame_size(t()) :: {:ok, pos_integer()} | {:error, reason}
-        when reason: :invalid_dims | :invalid_pixel_format
+        when reason: :invalid_dimensions | :invalid_pixel_format
   def frame_size(%__MODULE__{pixel_format: format, width: width, height: height}) do
     frame_size(format, width, height)
   end
@@ -64,7 +64,7 @@ defmodule Membrane.RawVideo do
   """
   @spec frame_size(pixel_format_t(), width_t(), height_t()) ::
           {:ok, pos_integer()} | {:error, reason}
-        when reason: :invalid_dims | :invalid_pixel_format
+        when reason: :invalid_dimensions | :invalid_pixel_format
   def frame_size(format, width, height)
       when format in [:I420, :YV12, :NV12, :NV21] and Integer.is_even(width) and
              Integer.is_even(height) do
@@ -92,7 +92,7 @@ defmodule Membrane.RawVideo do
   end
 
   def frame_size(format, _width, _height) when format in @supported_pixel_formats do
-    {:error, :invalid_dims}
+    {:error, :invalid_dimensions}
   end
 
   def frame_size(_format, _width, _height) do

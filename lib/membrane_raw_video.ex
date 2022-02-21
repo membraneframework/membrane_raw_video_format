@@ -1,6 +1,6 @@
-defmodule Membrane.Caps.Video.Raw do
+defmodule Membrane.RawVideo do
   @moduledoc """
-  This module provides caps struct for raw video frames.
+  This module provides a struct (`t:#{inspect(__MODULE__)}.t/0`) describing raw video frames.
   """
   require Integer
 
@@ -23,9 +23,10 @@ defmodule Membrane.Caps.Video.Raw do
   @type framerate_t :: {frames :: non_neg_integer, seconds :: pos_integer}
 
   @typedoc """
-  Format used to encode color of each pixel in each video frame.
+  Format used to encode the color of every pixel in each video frame.
   """
-  @type format_t :: :I420 | :I422 | :I444 | :RGB | :BGRA | :RGBA | :NV12 | :NV21 | :YV12 | :AYUV
+  @type pixel_format_t ::
+          :I420 | :I422 | :I444 | :RGB | :BGRA | :RGBA | :NV12 | :NV21 | :YV12 | :AYUV
 
   @typedoc """
   Determines, whether buffers are aligned i.e. each buffer contains one frame.
@@ -36,19 +37,22 @@ defmodule Membrane.Caps.Video.Raw do
           width: width_t(),
           height: height_t(),
           framerate: framerate_t(),
-          format: format_t(),
+          pixel_format: pixel_format_t(),
           aligned: aligned_t()
         }
 
-  @enforce_keys [:width, :height, :framerate, :format, :aligned]
+  @enforce_keys [:width, :height, :framerate, :pixel_format, :aligned]
   defstruct @enforce_keys
+
+  @supported_pixel_formats [:I420, :I422, :I444, :RGB, :BGRA, :RGBA, :NV12, :NV21, :YV12, :AYUV]
 
   @doc """
   Simple wrapper over `frame_size/3`. Returns the size of raw video frame
   in bytes for the given caps.
   """
-  @spec frame_size(t()) :: Bunch.Type.try_t(pos_integer)
-  def frame_size(%__MODULE__{format: format, width: width, height: height}) do
+  @spec frame_size(t()) :: {:ok, pos_integer()} | {:error, reason}
+        when reason: :invalid_dimensions | :invalid_pixel_format
+  def frame_size(%__MODULE__{pixel_format: format, width: width, height: height}) do
     frame_size(format, width, height)
   end
 
@@ -58,7 +62,9 @@ defmodule Membrane.Caps.Video.Raw do
   It may result in error when dimensions don't fulfill requirements for the given format
   (e.g. I420 requires both dimensions to be divisible by 2).
   """
-  @spec frame_size(Raw.format_t(), Raw.width_t(), Raw.height()) :: Bunch.Type.try_t(pos_integer)
+  @spec frame_size(pixel_format_t(), width_t(), height_t()) ::
+          {:ok, pos_integer()} | {:error, reason}
+        when reason: :invalid_dimensions | :invalid_pixel_format
   def frame_size(format, width, height)
       when format in [:I420, :YV12, :NV12, :NV21] and Integer.is_even(width) and
              Integer.is_even(height) do
@@ -85,7 +91,11 @@ defmodule Membrane.Caps.Video.Raw do
     {:ok, width * height * 4}
   end
 
-  def frame_size(_, _, _) do
-    {:error, :invalid_dims}
+  def frame_size(format, _width, _height) when format in @supported_pixel_formats do
+    {:error, :invalid_dimensions}
+  end
+
+  def frame_size(_format, _width, _height) do
+    {:error, :invalid_pixel_format}
   end
 end

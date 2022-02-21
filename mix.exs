@@ -1,17 +1,18 @@
-defmodule Membrane.Caps.Video.Raw.Mixfile do
+defmodule Membrane.RawVideo.Mixfile do
   use Mix.Project
 
-  @version "0.1.0"
-  @github_url "https://github.com/membraneframework/membrane-caps-video-raw"
+  @version "0.2.0"
+  @github_url "https://github.com/membraneframework/membrane_raw_video_format"
 
   def project do
     [
-      app: :membrane_caps_video_raw,
+      app: :membrane_raw_video_format,
       version: @version,
-      elixir: "~> 1.7",
-      description: "Membrane Multimedia Framework (Raw video format definition)",
+      elixir: "~> 1.12",
+      description:
+        "Definition of raw (uncompressed) video format for Membrane Multimedia Framework",
       package: package(),
-      name: "Membrane Caps: Video Raw",
+      name: "Membrane: Raw video format",
       source_url: @github_url,
       docs: docs(),
       deps: deps()
@@ -21,7 +22,8 @@ defmodule Membrane.Caps.Video.Raw.Mixfile do
   defp docs do
     [
       main: "readme",
-      extras: ["README.md"],
+      extras: ["README.md", LICENSE: [title: "License"]],
+      formatters: ["html"],
       source_ref: "v#{@version}"
     ]
   end
@@ -29,7 +31,7 @@ defmodule Membrane.Caps.Video.Raw.Mixfile do
   defp package do
     [
       maintainers: ["Membrane Team"],
-      licenses: ["Apache 2.0"],
+      licenses: ["Apache-2.0"],
       links: %{
         "GitHub" => @github_url,
         "Membrane Framework Homepage" => "https://membraneframework.org"
@@ -39,7 +41,9 @@ defmodule Membrane.Caps.Video.Raw.Mixfile do
 
   defp deps do
     [
-      {:ex_doc, "~> 0.19", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.28", only: :dev, runtime: false},
+      {:dialyxir, "~> 1.1", only: :dev, runtime: false},
+      {:credo, "~> 1.6", only: :dev, runtime: false}
     ]
   end
 end

@@ -12,6 +12,7 @@ defmodule Membrane.RawVideo.Mixfile do
       description:
         "Definition of raw (uncompressed) video format for Membrane Multimedia Framework",
       package: package(),
+      dialyzer: dialyzer(),
       name: "Membrane: Raw video format",
       source_url: @github_url,
       docs: docs(),
@@ -28,13 +29,26 @@ defmodule Membrane.RawVideo.Mixfile do
     ]
   end
 
+  defp dialyzer() do
+    opts = [
+      plt_local_path: "priv/plts",
+      flags: [:error_handling]
+    ]
+
+    if System.get_env("CI") == "true" do
+      [plt_core_path: "priv/plts"] ++ opts
+    else
+      opts
+    end
+  end
+
   defp package do
     [
       maintainers: ["Membrane Team"],
       licenses: ["Apache-2.0"],
       links: %{
         "GitHub" => @github_url,
-        "Membrane Framework Homepage" => "https://membraneframework.org"
+        "Membrane Framework Homepage" => "https://membrane.stream/"
       }
     ]
   end

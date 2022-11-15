@@ -4,6 +4,8 @@ defmodule Membrane.RawVideo do
   """
   require Integer
 
+  alias Membrane.Native.RawVideo, as: NativeRawVideo
+
   @typedoc """
   Width of single frame in pixels.
   """
@@ -98,8 +100,6 @@ defmodule Membrane.RawVideo do
   def frame_size(_format, _width, _height) do
     {:error, :invalid_pixel_format}
   end
-
-  alias Membrane.Native.RawVideo, as: NativeRawVideo
 
   @doc """
   Creates unifex compatible struct from Membrane.RawVideo struct.

@@ -5,7 +5,7 @@ defmodule Membrane.Native.RawVideo do
   Currently, unifex does not support tuples in the structs, so we have to decompose the framerate into two fields.
   """
 
-    @typedoc """
+  @typedoc """
   A numerator of the number of frames per second. To avoid using tuple type,
   it is described by 2 separate integers number.
   """
@@ -33,16 +33,13 @@ defmodule Membrane.Native.RawVideo do
             framerate_den: 1,
             aligned: nil
 
-  @supported_pixel_formats [:I420, :I422, :I444]
-
   @doc """
   Creates unifex compatible struct from Membrane.RawVideo struct.
   It may raise error when RawVideo with not supported pixel format is provided.
   """
   @spec from_membrane_raw_video(Membrane.RawVideo.t()) :: t()
 
-  def from_membrane_raw_video(%Membrane.RawVideo{pixel_format: format} = membrane_raw_video)
-      when format in @supported_pixel_formats do
+  def from_membrane_raw_video(%Membrane.RawVideo{} = membrane_raw_video) do
     {framerate_num, framerate_den} = membrane_raw_video.framerate
 
     %__MODULE__{
@@ -53,10 +50,6 @@ defmodule Membrane.Native.RawVideo do
       framerate_den: framerate_den,
       aligned: membrane_raw_video.aligned
     }
-  end
-
-  def from_membrane_raw_video(_raw_video) do
-    {:error, :not_supported_pixel_format}
   end
 
   @doc """

@@ -102,8 +102,8 @@ defmodule Membrane.RawVideo do
   end
 
   @doc """
-  Creates unifex compatible struct from Membrane.RawVideo struct.
-  It may raise error when RawVideo with not supported pixel format is provided.
+  Creates unifex-compatible struct from Membrane.RawVideo struct.
+  Raises an error when RawVideo with an unsupported pixel format is provided.
   """
   @spec to_native_raw_video(t()) :: NativeRawVideo.t()
   def to_native_raw_video(%__MODULE__{} = membrane_raw_video) do

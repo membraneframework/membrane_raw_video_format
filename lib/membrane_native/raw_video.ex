@@ -18,12 +18,12 @@ defmodule Membrane.Native.RawVideo do
   @type framerate_den_t :: pos_integer
 
   @type t :: %__MODULE__{
-          width: RawVideo.width_t(),
-          height: RawVideo.height_t(),
-          pixel_format: RawVideo.pixel_format_t(),
+          width: Membrane.RawVideo.width_t(),
+          height: Membrane.RawVideo.height_t(),
+          pixel_format: Membrane.RawVideo.pixel_format_t(),
           framerate_num: framerate_num_t(),
           framerate_den: framerate_den_t(),
-          aligned: RawVideo.aligned_t()
+          aligned: Membrane.RawVideo.aligned_t()
         }
   @enforce_keys [:width, :height, :pixel_format, :framerate_num, :aligned]
   defstruct width: nil,

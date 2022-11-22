@@ -5,42 +5,25 @@ defmodule Membrane.Native.RawVideo do
   Currently, unifex does not support tuples in the structs, so we have to decompose the framerate into two fields.
   """
 
-  @typedoc """
-  Currently supported formats used to encode the color of every pixel in each video frame.
-  """
-
-  @type pixel_format_t ::
-          :I420 | :I422 | :I444
-
-  @typedoc """
-  Width of single frame in pixels.
-  """
-  @type width_t :: pos_integer()
-
-  @typedoc """
-  Height of single frame in pixels.
-  """
-  @type height_t :: pos_integer()
-
-  @typedoc """
-  Numerator of number of frames per second. To avoid using tuple type,
+    @typedoc """
+  A numerator of the number of frames per second. To avoid using tuple type,
   it is described by 2 separate integers number.
   """
   @type framerate_num_t :: non_neg_integer
 
   @typedoc """
-  Denominator of number of frames per second. To avoid using tuple type,
-  it is described by 2 separate integers number. Default value is 1.
+  The denominator of the number of frames per second. To avoid using tuple type,
+  it is described by 2 separate integers number. The default value is 1.
   """
   @type framerate_den_t :: pos_integer
 
   @type t :: %__MODULE__{
-          width: width_t(),
-          height: height_t(),
-          pixel_format: pixel_format_t(),
+          width: RawVideo.width_t(),
+          height: RawVideo.height_t(),
+          pixel_format: RawVideo.pixel_format_t(),
           framerate_num: framerate_num_t(),
           framerate_den: framerate_den_t(),
-          aligned: boolean()
+          aligned: RawVideo.aligned_t()
         }
   @enforce_keys [:width, :height, :pixel_format, :framerate_num, :aligned]
   defstruct width: nil,

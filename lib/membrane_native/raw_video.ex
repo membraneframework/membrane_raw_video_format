@@ -1,8 +1,8 @@
 defmodule Membrane.Native.RawVideo do
   @moduledoc """
-  Bundlex compatible implementation of the Membrane.RawVideo struct.
+  Unifex-compatible implementation of the `Membrane.RawVideo` struct.
 
-  Currently bundlex does not support tuples in structs, so we have to decompose framerate into two fields.
+  Currently, unifex does not support tuples in the structs, so we have to decompose the framerate into two fields.
   """
 
   @typedoc """

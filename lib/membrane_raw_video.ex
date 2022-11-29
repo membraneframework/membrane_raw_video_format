@@ -4,6 +4,8 @@ defmodule Membrane.RawVideo do
   """
   require Integer
 
+  alias Membrane.Native.RawVideo, as: NativeRawVideo
+
   @typedoc """
   Width of single frame in pixels.
   """
@@ -97,5 +99,22 @@ defmodule Membrane.RawVideo do
 
   def frame_size(_format, _width, _height) do
     {:error, :invalid_pixel_format}
+  end
+
+  @doc """
+  Creates unifex-compatible struct from Membrane.RawVideo struct.
+  Raises an error when RawVideo with an unsupported pixel format is provided.
+  """
+  @spec to_native_raw_video(t()) :: NativeRawVideo.t()
+  def to_native_raw_video(%__MODULE__{} = membrane_raw_video) do
+    NativeRawVideo.from_membrane_raw_video(membrane_raw_video)
+  end
+
+  @doc """
+  Convert back a native raw video to the Membrane.RawVideo counterpart.
+  """
+  @spec from_native_raw_video(NativeRawVideo.t()) :: t()
+  def from_native_raw_video(%NativeRawVideo{} = native_raw_video) do
+    NativeRawVideo.to_membrane_raw_video(native_raw_video)
   end
 end

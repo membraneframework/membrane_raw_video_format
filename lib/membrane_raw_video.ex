@@ -28,7 +28,7 @@ defmodule Membrane.RawVideo do
   Format used to encode the color of every pixel in each video frame.
   """
   @type pixel_format_t ::
-          :I420 | :I422 | :I444 | :RGB | :BGRA | :RGBA | :NV12 | :NV21 | :YV12 | :AYUV
+          :I420 | :I422 | :I444 | :RGB | :BGRA | :RGBA | :NV12 | :NV21 | :YV12 | :AYUV | :YUY2
 
   @typedoc """
   Determines, whether buffers are aligned i.e. each buffer contains one frame.
@@ -46,7 +46,19 @@ defmodule Membrane.RawVideo do
   @enforce_keys [:width, :height, :framerate, :pixel_format, :aligned]
   defstruct @enforce_keys
 
-  @supported_pixel_formats [:I420, :I422, :I444, :RGB, :BGRA, :RGBA, :NV12, :NV21, :YV12, :AYUV]
+  @supported_pixel_formats [
+    :I420,
+    :I422,
+    :I444,
+    :RGB,
+    :BGRA,
+    :RGBA,
+    :NV12,
+    :NV21,
+    :YV12,
+    :AYUV,
+    :YUY2
+  ]
 
   @doc """
   Simple wrapper over `frame_size/3`. Returns the size of raw video frame
@@ -76,7 +88,8 @@ defmodule Membrane.RawVideo do
     {:ok, div(width * height * 3, 2)}
   end
 
-  def frame_size(:I422, width, height) when Integer.is_even(width) do
+  def frame_size(format, width, height)
+      when format in [:I422, :YUY2] and Integer.is_even(width) do
     # Subsampling by 2 in horizontal dimension
     # Y = width * height
     # V = U = (width / 2) * height

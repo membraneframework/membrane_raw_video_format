@@ -34,6 +34,17 @@ defmodule Membrane.RawVideo.Test do
     assert @module.frame_size(format_struct(format, 10, 19)) == {:ok, 380}
   end
 
+  test "frame_size for :YUY2 format" do
+    format = :YUY2
+    assert @module.frame_size(format, 10, 20) == {:ok, 400}
+    assert @module.frame_size(format, 9, 20) == {:error, :invalid_dimensions}
+    assert @module.frame_size(format, 10, 19) == {:ok, 380}
+
+    assert @module.frame_size(format_struct(format, 10, 20)) == {:ok, 400}
+    assert @module.frame_size(format_struct(format, 9, 20)) == {:error, :invalid_dimensions}
+    assert @module.frame_size(format_struct(format, 10, 19)) == {:ok, 380}
+  end
+
   test "frame_size for :I444 format" do
     format = :I444
     assert @module.frame_size(format, 10, 20) == {:ok, 600}

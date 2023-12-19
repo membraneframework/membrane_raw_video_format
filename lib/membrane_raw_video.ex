@@ -9,12 +9,12 @@ defmodule Membrane.RawVideo do
   @typedoc """
   Width of single frame in pixels.
   """
-  @type width_t :: pos_integer()
+  @type width :: pos_integer()
 
   @typedoc """
   Height of single frame in pixels.
   """
-  @type height_t :: pos_integer()
+  @type height :: pos_integer()
 
   @typedoc """
   Number of frames per second. To avoid using floating point numbers,
@@ -22,25 +22,25 @@ defmodule Membrane.RawVideo do
 
   For example, NTSC's framerate of ~29.97 fps is represented by `{30_000, 1001}`
   """
-  @type framerate_t :: {frames :: non_neg_integer, seconds :: pos_integer}
+  @type framerate :: {frames :: non_neg_integer, seconds :: pos_integer}
 
   @typedoc """
   Format used to encode the color of every pixel in each video frame.
   """
-  @type pixel_format_t ::
+  @type pixel_format ::
           :I420 | :I422 | :I444 | :RGB | :BGRA | :RGBA | :NV12 | :NV21 | :YV12 | :AYUV | :YUY2
 
   @typedoc """
   Determines, whether buffers are aligned i.e. each buffer contains one frame.
   """
-  @type aligned_t :: boolean()
+  @type aligned :: boolean()
 
   @type t :: %__MODULE__{
-          width: width_t(),
-          height: height_t(),
-          framerate: framerate_t(),
-          pixel_format: pixel_format_t(),
-          aligned: aligned_t()
+          width: width(),
+          height: height(),
+          framerate: framerate(),
+          pixel_format: pixel_format(),
+          aligned: aligned()
         }
 
   @enforce_keys [:width, :height, :framerate, :pixel_format, :aligned]
@@ -76,7 +76,7 @@ defmodule Membrane.RawVideo do
   It may result in error when dimensions don't fulfill requirements for the given format
   (e.g. I420 requires both dimensions to be divisible by 2).
   """
-  @spec frame_size(pixel_format_t(), width_t(), height_t()) ::
+  @spec frame_size(pixel_format(), width(), height()) ::
           {:ok, pos_integer()} | {:error, reason}
         when reason: :invalid_dimensions | :invalid_pixel_format
   def frame_size(format, width, height)

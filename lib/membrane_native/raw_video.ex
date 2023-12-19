@@ -9,21 +9,21 @@ defmodule Membrane.Native.RawVideo do
   A numerator of the number of frames per second. To avoid using tuple type,
   it is described by 2 separate integers number.
   """
-  @type framerate_num_t :: non_neg_integer
+  @type framerate_num :: non_neg_integer
 
   @typedoc """
   The denominator of the number of frames per second. To avoid using tuple type,
   it is described by 2 separate integers number. The default value is 1.
   """
-  @type framerate_den_t :: pos_integer
+  @type framerate_den :: pos_integer
 
   @type t :: %__MODULE__{
-          width: Membrane.RawVideo.width_t(),
-          height: Membrane.RawVideo.height_t(),
-          pixel_format: Membrane.RawVideo.pixel_format_t(),
-          framerate_num: framerate_num_t(),
-          framerate_den: framerate_den_t(),
-          aligned: Membrane.RawVideo.aligned_t()
+          width: Membrane.RawVideo.width(),
+          height: Membrane.RawVideo.height(),
+          pixel_format: Membrane.RawVideo.pixel_format(),
+          framerate_num: framerate_num(),
+          framerate_den: framerate_den(),
+          aligned: Membrane.RawVideo.aligned()
         }
   @enforce_keys [:width, :height, :pixel_format, :framerate_num, :aligned]
   defstruct width: nil,

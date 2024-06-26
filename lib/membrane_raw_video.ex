@@ -18,9 +18,11 @@ defmodule Membrane.RawVideo do
   Number of frames per second. To avoid using floating point numbers,
   it is described by 2 integers number of frames per timeframe in seconds.
 
-  For example, NTSC's framerate of ~29.97 fps is represented by `{30_000, 1001}`
+  For example, NTSC's framerate of ~29.97 fps is represented by `{30_000, 1001}`.
+  If the information about the framerate is not present in the stream, `nil` value
+  should be used.
   """
-  @type framerate :: {frames :: non_neg_integer, seconds :: pos_integer}
+  @type framerate :: {frames :: non_neg_integer, seconds :: pos_integer} | nil
 
   @typedoc """
   Format used to encode the color of every pixel in each video frame.

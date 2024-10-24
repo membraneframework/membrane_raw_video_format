@@ -133,6 +133,42 @@ defmodule Membrane.RawVideo.Test do
     assert @module.frame_size(format_struct(format, 10, 19)) == {:ok, 760}
   end
 
+  test "frame_size for :I420_10xx format" do
+    format = :I420_10LE
+
+    assert @module.frame_size(format, 10, 20) == {:ok, 600}
+    assert @module.frame_size(format, 9, 20) == {:error, :invalid_dimensions}
+    assert @module.frame_size(format, 10, 19) == {:error, :invalid_dimensions}
+
+    assert @module.frame_size(format_struct(format, 10, 20)) == {:ok, 600}
+    assert @module.frame_size(format_struct(format, 9, 20)) == {:error, :invalid_dimensions}
+    assert @module.frame_size(format_struct(format, 10, 19)) == {:error, :invalid_dimensions}
+  end
+
+  test "frame_size for :I422_10xx format" do
+    format = :I422_10LE
+
+    assert @module.frame_size(format, 10, 20) == {:ok, 800}
+    assert @module.frame_size(format, 9, 20) == {:error, :invalid_dimensions}
+    assert @module.frame_size(format, 10, 19) == {:ok, 760}
+
+    assert @module.frame_size(format_struct(format, 10, 20)) == {:ok, 800}
+    assert @module.frame_size(format_struct(format, 9, 20)) == {:error, :invalid_dimensions}
+    assert @module.frame_size(format_struct(format, 10, 19)) == {:ok, 760}
+  end
+
+  test "frame_size for :I44_10xx format" do
+    format = :I444_10LE
+
+    assert @module.frame_size(format, 10, 20) == {:ok, 1200}
+    assert @module.frame_size(format, 9, 20) == {:ok, 1080}
+    assert @module.frame_size(format, 10, 19) == {:ok, 1140}
+
+    assert @module.frame_size(format_struct(format, 10, 20)) == {:ok, 1200}
+    assert @module.frame_size(format_struct(format, 9, 20)) == {:ok, 1080}
+    assert @module.frame_size(format_struct(format, 10, 19)) == {:ok, 1140}
+  end
+
   test "frame_size error on unknown pixel format" do
     assert @module.frame_size(:yuv_240p, 10, 20) == {:error, :invalid_pixel_format}
   end

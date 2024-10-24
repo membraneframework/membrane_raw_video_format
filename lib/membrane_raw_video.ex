@@ -28,7 +28,24 @@ defmodule Membrane.RawVideo do
   Format used to encode the color of every pixel in each video frame.
   """
   @type pixel_format ::
-          :I420 | :I422 | :I444 | :RGB | :BGRA | :RGBA | :NV12 | :NV21 | :YV12 | :AYUV | :YUY2
+          :I420
+          | :I422
+          | :I444
+          | :RGB
+          | :BGR
+          | :BGRA
+          | :RGBA
+          | :NV12
+          | :NV21
+          | :YV12
+          | :AYUV
+          | :YUY2
+          | :I420_10LE
+          | :I420_10BE
+          | :I422_10LE
+          | :I422_10BE
+          | :I444_10LE
+          | :I444_10BE
 
   @typedoc """
   Determines, whether buffers are aligned i.e. each buffer contains one frame.
@@ -51,13 +68,20 @@ defmodule Membrane.RawVideo do
     :I422,
     :I444,
     :RGB,
+    :BGR,
     :BGRA,
     :RGBA,
     :NV12,
     :NV21,
     :YV12,
     :AYUV,
-    :YUY2
+    :YUY2,
+    :I420_10LE,
+    :I420_10BE,
+    :I422_10LE,
+    :I422_10BE,
+    :I444_10LE,
+    :I444_10BE
   ]
 
   @doc """
@@ -96,7 +120,7 @@ defmodule Membrane.RawVideo do
     {:ok, width * height * 2}
   end
 
-  def frame_size(format, width, height) when format in [:I444, :RGB] do
+  def frame_size(format, width, height) when format in [:I444, :RGB, :BGR] do
     # No subsampling
     {:ok, width * height * 3}
   end
@@ -104,6 +128,31 @@ defmodule Membrane.RawVideo do
   def frame_size(format, width, height) when format in [:AYUV, :RGBA, :BGRA] do
     # No subsampling and added alpha channel
     {:ok, width * height * 4}
+  end
+
+  def frame_size(format, width, height)
+      when format in [:I420_10LE, :I420_10BE] and Integer.is_even(width) and
+             Integer.is_even(height) do
+    # Subsampling by 2 in both dimensions
+    # Each pixel requires 2 bytes.
+    # Y = 2 * width * height
+    # V = U = 2 * (width / 2) * (height / 2)
+    {:ok, 3 * width * height}
+  end
+
+  def frame_size(format, width, height)
+      when format in [:I422_10LE, :I422_10BE] and Integer.is_even(width) do
+    # Subsampling by 2 in horizontal dimension
+    # Each pixel requires 2 bytes.
+    # Y = 2 * width * height
+    # V = U = 2 * (width / 2) * height
+    {:ok, 4 * width * height}
+  end
+
+  def frame_size(format, width, height) when format in [:I444_10LE, :I444_10BE] do
+    # No subsampling
+    # Each pixel requires 2 bytes.
+    {:ok, 6 * width * height}
   end
 
   def frame_size(format, _width, _height) when format in @supported_pixel_formats do

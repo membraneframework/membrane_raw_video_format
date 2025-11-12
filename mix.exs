@@ -1,7 +1,7 @@
 defmodule Membrane.RawVideo.Mixfile do
   use Mix.Project
 
-  @version "0.4.2"
+  @version "0.4.3"
   @github_url "https://github.com/membraneframework/membrane_raw_video_format"
 
   def project do
@@ -54,6 +54,7 @@ defmodule Membrane.RawVideo.Mixfile do
 
   defp deps do
     [
+      {:image, "~> 0.54.0"},
       {:ex_doc, "~> 0.28", only: :dev, runtime: false},
       {:dialyxir, "~> 1.1", only: :dev, runtime: false},
       {:credo, "~> 1.6", only: :dev, runtime: false}

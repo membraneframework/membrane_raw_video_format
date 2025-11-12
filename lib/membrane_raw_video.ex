@@ -4,6 +4,8 @@ defmodule Membrane.RawVideo do
   """
   require Integer
 
+  alias Vix.Vips.Image
+
   @typedoc """
   Width of single frame in pixels.
   """
@@ -86,7 +88,7 @@ defmodule Membrane.RawVideo do
 
   @doc """
   Simple wrapper over `frame_size/3`. Returns the size of raw video frame
-  in bytes for the given caps.
+  in bytes for the given raw video stream format.
   """
   @spec frame_size(t()) :: {:ok, pos_integer()} | {:error, reason}
         when reason: :invalid_dimensions | :invalid_pixel_format
@@ -161,5 +163,24 @@ defmodule Membrane.RawVideo do
 
   def frame_size(_format, _width, _height) do
     {:error, :invalid_pixel_format}
+  end
+
+  @doc """
+  Converts raw video frame to `Image.t/0` struct.
+  """
+  @spec to_image!(binary(), t()) :: {:ok, Image.t()} | {:error, term()}
+  def to_image!(payload, %__MODULE__{} = raw_video) do
+    with :RGB <- raw_video.pixel_format do
+      Vix.Vips.Image.new_from_binary(
+        payload,
+        raw_video.width,
+        raw_video.height,
+        3,
+        :VIPS_FORMAT_UCHAR
+      )
+    else
+      other_format ->
+        {:error, {:pixel_format_different_than_RGB, other_format}}
+    end
   end
 end

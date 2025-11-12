@@ -4,8 +4,6 @@ defmodule Membrane.RawVideo do
   """
   require Integer
 
-  alias Vix.Vips.Image
-
   @typedoc """
   Width of single frame in pixels.
   """
@@ -166,10 +164,12 @@ defmodule Membrane.RawVideo do
   end
 
   @doc """
-  Converts raw video frame to `Image.t/0` struct.
+  Converts raw video frame to `Vix.Vips.Image.t/0` struct.
+
+  Calls `Vix.Vips.Image.new_from_binary/5` internally.
   """
-  @spec to_image!(binary(), t()) :: {:ok, Image.t()} | {:error, term()}
-  def to_image!(payload, %__MODULE__{} = raw_video) do
+  @spec payload_to_image!(binary(), t()) :: {:ok, Vix.Vips.Image.t()} | {:error, term()}
+  def payload_to_image!(payload, %__MODULE__{} = raw_video) do
     with :RGB <- raw_video.pixel_format do
       Vix.Vips.Image.new_from_binary(
         payload,
@@ -182,5 +182,18 @@ defmodule Membrane.RawVideo do
       other_format ->
         {:error, {:pixel_format_different_than_RGB, other_format}}
     end
+  end
+
+  @doc """
+  Converts `Vix.Vips.Image.t/0` struct to raw video frame payload.
+
+  Calls `Vix.Vips.Image.write_to_binary/1` internally.
+  """
+  @spec image_to_payload!(Vix.Vips.Image.t()) :: {:ok, binary()} | {:error, term()}
+  def image_to_payload!(image) do
+    image
+    |> Image.flatten!()
+    |> Image.to_colorspace!(:srgb)
+    |> Vix.Vips.Image.write_to_binary()
   end
 end

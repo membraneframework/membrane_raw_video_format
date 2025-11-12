@@ -168,8 +168,8 @@ defmodule Membrane.RawVideo do
 
   Calls `Vix.Vips.Image.new_from_binary/5` internally.
   """
-  @spec payload_to_image!(binary(), t()) :: {:ok, Vix.Vips.Image.t()} | {:error, term()}
-  def payload_to_image!(payload, %__MODULE__{} = raw_video) do
+  @spec payload_to_image(binary(), t()) :: {:ok, Vix.Vips.Image.t()} | {:error, term()}
+  def payload_to_image(payload, %__MODULE__{} = raw_video) do
     with :RGB <- raw_video.pixel_format do
       Vix.Vips.Image.new_from_binary(
         payload,
@@ -189,8 +189,8 @@ defmodule Membrane.RawVideo do
 
   Calls `Vix.Vips.Image.write_to_binary/1` internally.
   """
-  @spec image_to_payload!(Vix.Vips.Image.t()) :: {:ok, binary()} | {:error, term()}
-  def image_to_payload!(image) do
+  @spec image_to_payload(Vix.Vips.Image.t()) :: {:ok, binary()} | {:error, term()}
+  def image_to_payload(image) do
     image
     |> Image.flatten!()
     |> Image.to_colorspace!(:srgb)

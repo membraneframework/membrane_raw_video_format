@@ -54,7 +54,7 @@ defmodule Membrane.RawVideo.Mixfile do
 
   defp deps do
     [
-      {:image, "~> 0.54.0"},
+      {:image, ">= 0.54.0"},
       {:ex_doc, "~> 0.28", only: :dev, runtime: false},
       {:dialyxir, "~> 1.1", only: :dev, runtime: false},
       {:credo, "~> 1.6", only: :dev, runtime: false}

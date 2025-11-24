@@ -166,9 +166,12 @@ defmodule Membrane.RawVideo do
   @doc """
   Converts raw video frame to `Vix.Vips.Image.t/0` struct.
 
+  It requires the pixel format to be `:RGB`.
+
   Calls `Vix.Vips.Image.new_from_binary/5` internally.
   """
-  @spec payload_to_image(binary(), t()) :: {:ok, Vix.Vips.Image.t()} | {:error, term()}
+  @spec payload_to_image(binary(), t()) ::
+          {:ok, Vix.Vips.Image.t()} | {:error, :invalid_pixel_format | term()}
   def payload_to_image(payload, %__MODULE__{} = raw_video) do
     with :RGB <- raw_video.pixel_format do
       Vix.Vips.Image.new_from_binary(
@@ -179,21 +182,38 @@ defmodule Membrane.RawVideo do
         :VIPS_FORMAT_UCHAR
       )
     else
-      other_format ->
-        {:error, {:pixel_format_different_than_RGB, other_format}}
+      _other_format -> {:error, :invalid_pixel_format}
     end
   end
 
   @doc """
   Converts `Vix.Vips.Image.t/0` struct to raw video frame payload.
 
+  Returns a tuple `{:ok, payload, format}` where `payload` is a binary representing
+  the raw video frame and `format` is a `t:#{inspect(__MODULE__)}.t/0` struct describing
+  the format of the frame. Note, that `framerate` field in the returned format struct is
+  always `nil`, however the stream may have a framerate associated with it.
+
   Calls `Vix.Vips.Image.write_to_binary/1` internally.
   """
-  @spec image_to_payload(Vix.Vips.Image.t()) :: {:ok, binary()} | {:error, term()}
+  @spec image_to_payload(Vix.Vips.Image.t()) :: {:ok, binary(), t()} | {:error, term()}
   def image_to_payload(image) do
+    format =
+      %__MODULE__{
+        width: Vix.Vips.Image.width(image),
+        height: Vix.Vips.Image.height(image),
+        framerate: nil,
+        pixel_format: :RGB,
+        aligned: true
+      }
+
     image
     |> Image.flatten!()
     |> Image.to_colorspace!(:srgb)
     |> Vix.Vips.Image.write_to_binary()
+    |> case do
+      {:ok, payload} -> {:ok, payload, format}
+      {:error, reason} -> {:error, reason}
+    end
   end
 end

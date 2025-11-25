@@ -170,6 +170,8 @@ defmodule Membrane.RawVideo do
     It requires the pixel format to be `:RGB`.
 
     Calls `Vix.Vips.Image.new_from_binary/5` internally.
+
+    This function is available only if `:image` dependency is present.
     """
     @spec payload_to_image(binary(), t()) ::
             {:ok, Vix.Vips.Image.t()} | {:error, :invalid_pixel_format | term()}
@@ -196,6 +198,8 @@ defmodule Membrane.RawVideo do
     always `nil`, however the stream may have a framerate associated with it.
 
     Calls `Vix.Vips.Image.write_to_binary/1` internally.
+
+    This function is available only if `:image` dependency is present.
     """
     @spec image_to_payload(Vix.Vips.Image.t()) :: {:ok, binary(), t()} | {:error, term()}
     def image_to_payload(image) do

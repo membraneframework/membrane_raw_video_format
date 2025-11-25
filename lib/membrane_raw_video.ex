@@ -165,7 +165,7 @@ defmodule Membrane.RawVideo do
 
   if Code.ensure_loaded?(Image) do
     @doc """
-    Converts raw video frame to `Vix.Vips.Image.t/0` struct.
+    Converts raw video frame to `t:Vix.Vips.Image.t/0` struct.
 
     It requires the pixel format to be `:RGB`.
 
@@ -190,7 +190,7 @@ defmodule Membrane.RawVideo do
     end
 
     @doc """
-    Converts `Vix.Vips.Image.t/0` struct to raw video frame payload.
+    Converts `t:Vix.Vips.Image.t/0` struct to raw video frame payload.
 
     Returns a tuple `{:ok, payload, format}` where `payload` is a binary representing
     the raw video frame and `format` is a `t:#{inspect(__MODULE__)}.t/0` struct describing

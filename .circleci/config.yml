@@ -27,3 +27,9 @@ workflows:
               ignore: /.*/
             tags:
               only: /v.*/
+
+steps:
+  - add_ssh_keys:
+      fingerprints:
+        - "SHA256:i57J2bRcXURcrlj5wB9XP3c1zqRuB7edzJCpuFqxWgw"
+  - checkout

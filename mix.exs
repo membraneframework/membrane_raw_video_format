@@ -1,7 +1,7 @@
 defmodule Membrane.RawVideo.Mixfile do
   use Mix.Project
 
-  @version "0.4.3"
+  @version "0.4.4"
   @github_url "https://github.com/membraneframework/membrane_raw_video_format"
 
   def project do
@@ -16,7 +16,8 @@ defmodule Membrane.RawVideo.Mixfile do
       name: "Membrane: Raw video format",
       source_url: @github_url,
       docs: docs(),
-      deps: deps()
+      deps: deps(),
+      aliases: [docs: ["docs", &prepend_llms_links/1]]
     ]
   end
 
@@ -24,7 +25,6 @@ defmodule Membrane.RawVideo.Mixfile do
     [
       main: "readme",
       extras: ["README.md", LICENSE: [title: "License"]],
-      formatters: ["html"],
       source_ref: "v#{@version}"
     ]
   end
@@ -55,9 +55,31 @@ defmodule Membrane.RawVideo.Mixfile do
   defp deps do
     [
       {:image, ">= 0.54.0", optional: true},
-      {:ex_doc, "~> 0.28", only: :dev, runtime: false},
+      {:ex_doc, "~> 0.40", only: :dev, runtime: false},
       {:dialyxir, "~> 1.1", only: :dev, runtime: false},
       {:credo, "~> 1.6", only: :dev, runtime: false}
     ]
+  end
+
+  defp prepend_llms_links(_) do
+    output_dir = docs()[:output] || "doc"
+    path = Path.join(output_dir, "llms.txt")
+
+    if File.exists?(path) do
+      existing = File.read!(path)
+
+      footer = """
+
+
+      ## See Also
+
+      - [Membrane Framework AI Skill](https://hexdocs.pm/membrane_core/skill.md)
+      - [Membrane Core](https://hexdocs.pm/membrane_core/llms.txt)
+      """
+
+      File.write!(path, String.trim_trailing(existing) <> footer)
+    else
+      IO.warn("#{path} not found — llms.txt was not generated, check your ex_doc configuration")
+    end
   end
 end

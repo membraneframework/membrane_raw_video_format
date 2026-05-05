@@ -18,7 +18,7 @@ reason, just add the following line to your `deps` in the `mix.exs` and run
 `mix deps.get`.
 
 ```elixir
-{:membrane_raw_video_format, "~> 0.4.3"}
+{:membrane_raw_video_format, "~> 0.4.4"}
 ```
 
 ## Copyright and License

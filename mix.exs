@@ -1,7 +1,7 @@
 defmodule Membrane.RawVideo.Mixfile do
   use Mix.Project
 
-  @version "0.4.3"
+  @version "0.4.4"
   @github_url "https://github.com/membraneframework/membrane_raw_video_format"
 
   def project do
@@ -35,7 +35,8 @@ defmodule Membrane.RawVideo.Mixfile do
     ]
 
     if System.get_env("CI") == "true" do
-      [plt_core_path: "priv/plts"] ++ opts
+      File.mkdir_p!(Path.join([__DIR__, "priv", "plts"]))
+      [plt_local_path: "priv/plts", plt_core_path: "priv/plts"] ++ opts
     else
       opts
     end
@@ -55,9 +56,10 @@ defmodule Membrane.RawVideo.Mixfile do
   defp deps do
     [
       {:image, ">= 0.54.0", optional: true},
-      {:ex_doc, "~> 0.28", only: :dev, runtime: false},
-      {:dialyxir, "~> 1.1", only: :dev, runtime: false},
-      {:credo, "~> 1.6", only: :dev, runtime: false}
+      {:plug, "~> 1.15", optional: true},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
+      {:dialyxir, ">= 0.0.0", only: :dev, runtime: false},
+      {:credo, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
 end
